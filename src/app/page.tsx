@@ -1,8 +1,9 @@
+import HomePage from "./components/HomePage/HomePage";
+
 const Home = () => {
   return (
     <div>
-      <h1>home page</h1>
-      <button className="btn btn-primary text-white">see more</button>
+      <HomePage/>
     </div>
   );
 };
