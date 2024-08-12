@@ -83,7 +83,7 @@ const Navbar = () => {
           <Image src='/assets/icons/Frame.png' height={22} width={22} alt='logo'/>
           <Image src='/assets/icons/Frame (1).png' height={22} width={22} alt='logo'/>
           <a className="btn btn-outline btn-primary px-8">Appointment</a>
-          </div>
+          </div>   
         </div>
       </div>
     </div>

@@ -1,5 +1,9 @@
+import BannerPage from "./Banner";
+
 const HomePage = () => {
-  return <div className="h-screen">home page content..</div>;
+  return <div className="h-screen">
+    <BannerPage/>
+  </div>;
 };
 
 export default HomePage;
