@@ -16,12 +16,17 @@ const BannerPage = () => {
               className="carousel-item relative w-full h-[90vh] bg-top bg-no-repeat bg-cover rounded-xl"
               key={index}
             >
-              <div>
-                <h1>Lorem ipsum dolor sit</h1>
+              <div className="flex items-center pl-36 w-full h-full">
+                <div className='space-y-3'>
+                  <h1 className="text-white text-5xl">{banner.title}</h1>
+                  <p className='text-white'>{banner.description}</p>
+                  <button className="btn btn-primary mr-3">Discover More</button>
+                  <button className="btn btn-primary btn-outline">Latest Projext</button>
+                </div>
               </div>
 
-              <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                <a href={banner.prev} className="btn btn-circle">
+              <div className="absolute flex transform justify-between bottom-12 right-12">
+                <a href={banner.prev} className="btn btn-circle mr-4">
                   ❮
                 </a>
                 <a href={banner.next} className="btn btn-circle">
