@@ -1,5 +1,6 @@
 import { connectDb } from '@/app/lib/connectDb';
 import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from "bcrypt";
 
 export async function POST(request: NextRequest) {
   const newUser = await request.json();
@@ -13,7 +14,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'user exists' }, { status: 404 });
     }
 
-    const response = await userCollection?.insertOne(newUser);
+
+    const hashedPassword = bcrypt.hashSync(newUser.password, 14);
+    const response = await userCollection?.insertOne({...newUser, password:hashedPassword});
 
     return NextResponse.json(
       { message: 'user created', response },

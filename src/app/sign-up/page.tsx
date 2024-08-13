@@ -21,7 +21,15 @@ const SignupPage = () => {
       password: formElements.password.value,
     };
 
-    console.log(signin);
+    const response = await fetch(`http://localhost:3000/sign-up/api`, {
+      method: 'POST',
+      headers: {
+        'content-Type': 'application/json',
+      },
+      body: JSON.stringify(signin),
+    });
+
+    console.log(response);
   };
 
   return (
@@ -46,7 +54,7 @@ const SignupPage = () => {
               type="text"
               placeholder="Your name"
               className="input input-bordered w-full mb-4"
-              name='name'
+              name="name"
             />
             <label htmlFor="email">Email</label>
             <br />
