@@ -1,4 +1,6 @@
 import Container from '../ui/Container';
+import ServiceCard from './card/ServiceCard';
+import { services } from '@/app/lib/services';
 
 const Services = () => {
   return (
@@ -13,7 +15,14 @@ const Services = () => {
             believable.{' '}
           </p>
         </div>
-        <div className="mt-12"></div>
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {
+            services.map((service) =>(
+
+              <ServiceCard service={service} key={service._id}/>
+            ))
+          }
+        </div>
       </div>
     </Container>
   );
