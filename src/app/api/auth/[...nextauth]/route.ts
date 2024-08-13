@@ -3,6 +3,8 @@ import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 import { Db } from 'mongodb';
+import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
 
 const handler = NextAuth({
   session: {
@@ -11,6 +13,7 @@ const handler = NextAuth({
   },
   providers: [
     CredentialsProvider({
+      name: "Credentials",
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
@@ -31,7 +34,7 @@ const handler = NextAuth({
         const currentUser = await db.collection('carUser').findOne({ email });
 
         if (!currentUser) {
-          console.log('no user found with the email');
+          console.error('No user found with the email');
           return null;
         }
 
@@ -47,6 +50,18 @@ const handler = NextAuth({
         return currentUser;
       },
     }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+    }),
+
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string
+    })
+
+
   ],
   callbacks: {},
   pages: {

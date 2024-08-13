@@ -1,12 +1,14 @@
 'use client';
 import Image from 'next/image';
 import Container from '../components/ui/Container';
-import { BsGoogle, BsGithub } from 'react-icons/bs';
 import Link from 'next/link';
 import { FormEvent } from 'react';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import SocialSignin from '../components/shared/SocialSignin';
 
 const LoginPage = () => {
+  const router = useRouter()
   const handleForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -21,6 +23,10 @@ const LoginPage = () => {
         password: formElements.password.value,
         redirect: false,
       });
+
+      if(Login?.status == 200){
+        router.push('/')
+      }
 
       console.log(Login);
     } catch (error) {
@@ -67,14 +73,7 @@ const LoginPage = () => {
           </form>
           <div>
             <h6 className="my-12 text-center">or signin with</h6>
-            <div className="flex items-center justify-center space-x-3">
-              <button className="btn flex items-center justify-center text-primary">
-                <BsGoogle />
-              </button>
-              <button className="btn flex items-center justify-center text-primary">
-                <BsGithub />
-              </button>
-            </div>
+            <SocialSignin/>
             <h6 className="my-12 text-center">
               New here create an account ?{' '}
               <Link className="text-blue-700" href={'/sign-up'}>

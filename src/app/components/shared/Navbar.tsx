@@ -1,30 +1,12 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import Container from '../ui/Container';
+import { signOut, useSession } from 'next-auth/react';
 
 const Navbar = () => {
-  const navItems = [
-    {
-      title: 'Home',
-      path: '/',
-    },
-    {
-      title: 'About',
-      path: '/about',
-    },
-    {
-      title: 'Services',
-      path: '/services',
-    },
-    {
-      title: 'Blog',
-      path: '/blog',
-    },
-    {
-      title: 'Contact',
-      path: '/contact',
-    },
-  ];
+  const session = useSession();
+  console.log(session);
 
   return (
     <Container>
@@ -108,9 +90,18 @@ const Navbar = () => {
                 alt="logo"
               />
               <a className="btn btn-outline btn-primary px-8">Appointment</a>
-              <button className="btn btn-primary py-4">
-                <Link href={'/login'}>Login</Link>
-              </button>
+              {!session.data ? (
+                <button className="btn btn-primary py-4">
+                  <Link href={'/login'}>Login</Link>
+                </button>
+              ) : (
+                <button
+                  onClick={() => signOut}
+                  className="btn btn-primary py-4"
+                >
+                  LogOut
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -118,5 +109,28 @@ const Navbar = () => {
     </Container>
   );
 };
+
+const navItems = [
+  {
+    title: 'Home',
+    path: '/',
+  },
+  {
+    title: 'About',
+    path: '/about',
+  },
+  {
+    title: 'Services',
+    path: '/services',
+  },
+  {
+    title: 'Blog',
+    path: '/blog',
+  },
+  {
+    title: 'Contact',
+    path: '/contact',
+  },
+];
 
 export default Navbar;
