@@ -15,18 +15,19 @@ const LoginPage = () => {
       password: { value: string };
     };
 
-    const signin = {
-      email: formElements.email.value,
-      password: formElements.password.value,
-    };
+    try {
+      const Login = await signIn('credentials', {
+        email: formElements.email.value,
+        password: formElements.password.value,
+        redirect: false,
+      });
 
-    const Login = signIn('credentials',{
-      signin,
-      redirect: false
-    })
-    
-    console.log(Login);
+      console.log(Login);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  
   return (
     <Container>
       <div className="grid grid-cols-2 gap-12 my-12">
@@ -47,6 +48,7 @@ const LoginPage = () => {
               type="text"
               placeholder="Your email"
               className="input input-bordered w-full mb-4"
+              name="email"
             />
             <br />
             <label htmlFor="password">Password</label>
@@ -55,6 +57,7 @@ const LoginPage = () => {
               type="text"
               placeholder="Your Password"
               className="input input-bordered w-full "
+              name="password"
             />
             <br />
             <br />

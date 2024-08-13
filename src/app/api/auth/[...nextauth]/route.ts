@@ -2,6 +2,7 @@ import { connectDb } from '@/app/lib/connectDb';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
+import { Db } from 'mongodb';
 
 const handler = NextAuth({
   session: {
@@ -11,8 +12,8 @@ const handler = NextAuth({
   providers: [
     CredentialsProvider({
       credentials: {
-        email: {},
-        password: {},
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         const { email, password } = credentials;
@@ -21,10 +22,16 @@ const handler = NextAuth({
           return null;
         }
 
-        const db = connectDb();
+        const db: Db | undefined = await connectDb();
+
+        if (!db) {
+          throw new Error('Failed to connect to the database.');
+        }
+
         const currentUser = await db.collection('carUser').findOne({ email });
 
         if (!currentUser) {
+          console.log('no user found with the email');
           return null;
         }
 
