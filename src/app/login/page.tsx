@@ -1,11 +1,32 @@
-'use client'
+'use client';
 import Image from 'next/image';
 import Container from '../components/ui/Container';
 import { BsGoogle, BsGithub } from 'react-icons/bs';
 import Link from 'next/link';
+import { FormEvent } from 'react';
+import { signIn } from 'next-auth/react';
 
 const LoginPage = () => {
-  const handleForm = async () =>{}
+  const handleForm = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formElements = event.target as typeof event.target & {
+      email: { value: string };
+      password: { value: string };
+    };
+
+    const signin = {
+      email: formElements.email.value,
+      password: formElements.password.value,
+    };
+
+    const Login = signIn('credentials',{
+      signin,
+      redirect: false
+    })
+    
+    console.log(Login);
+  };
   return (
     <Container>
       <div className="grid grid-cols-2 gap-12 my-12">
