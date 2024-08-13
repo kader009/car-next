@@ -1,11 +1,29 @@
-'use client'
+'use client';
 import Image from 'next/image';
 import Container from '../components/ui/Container';
 import { BsGoogle, BsGithub } from 'react-icons/bs';
 import Link from 'next/link';
+import { FormEvent } from 'react';
 
 const SignupPage = () => {
-  const handleForm = async () =>{}
+  const handleForm = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formElements = event.target as typeof event.target & {
+      name: { value: string };
+      email: { value: string };
+      password: { value: string };
+    };
+
+    const signin = {
+      name: formElements.name.value,
+      email: formElements.email.value,
+      password: formElements.password.value,
+    };
+
+    console.log(signin);
+  };
+
   return (
     <Container>
       <div className="grid grid-cols-2 gap-12 my-12">
@@ -18,7 +36,9 @@ const SignupPage = () => {
           />
         </div>
         <div className="border-2 p-6 rounded-lg">
-          <h1 className="text-primary font-semibold text-center mb-3">Signup</h1>
+          <h1 className="text-primary font-semibold text-center mb-3">
+            Signup
+          </h1>
           <form onSubmit={handleForm}>
             <label htmlFor="name">Name</label>
             <br />
@@ -26,6 +46,7 @@ const SignupPage = () => {
               type="text"
               placeholder="Your name"
               className="input input-bordered w-full mb-4"
+              name='name'
             />
             <label htmlFor="email">Email</label>
             <br />
@@ -33,6 +54,7 @@ const SignupPage = () => {
               type="text"
               placeholder="Your email"
               className="input input-bordered w-full mb-4"
+              name="email"
             />
             <br />
             <label htmlFor="password">Password</label>
@@ -41,6 +63,7 @@ const SignupPage = () => {
               type="text"
               placeholder="Your Password"
               className="input input-bordered w-full "
+              name="password"
             />
             <br />
             <br />

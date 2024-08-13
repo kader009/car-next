@@ -19,13 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="doctortheme">
-      <AuthProvider>
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
-      </AuthProvider>
     </html>
   );
 }
