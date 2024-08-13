@@ -63,7 +63,15 @@ const handler = NextAuth({
 
 
   ],
-  callbacks: {},
+  callbacks: {
+    async signIn({ user, account }){
+      if(account?.provider === 'google' || account?.provider === 'github'){
+
+      }else{
+        return user;
+      }
+    }
+  },
   pages: {
     signIn: '/login',
   },

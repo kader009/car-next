@@ -103,6 +103,7 @@ const Navbar = () => {
                 </button>
               )}
             </div>
+            <Image src={session.data?.user?.image || '/placeholder.png'} alt={session.data?.user?.name || 'kader'} height={50} width={50} className='rounded-full ms-3'/>
           </div>
         </div>
       </div>
