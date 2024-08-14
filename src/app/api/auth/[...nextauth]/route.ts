@@ -1,5 +1,5 @@
-import { connectDb } from '@/app/lib/connectDb'; 
-import NextAuth from 'next-auth/next';
+import { connectDb } from '@/app/lib/connectDb';
+import NextAuth, { Account, Awaitable, RequestInternal, User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 import { Db } from 'mongodb';
@@ -18,7 +18,10 @@ const handler = NextAuth({
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(
+        credentials: Record<'email' | 'password', string> | undefined,
+        req: Pick<RequestInternal, 'body' | 'query' | 'headers' | 'method'>
+      ): Awaitable<User | null> {
         const { email, password } = credentials;
 
         if (!email || !password) {
@@ -57,26 +60,28 @@ const handler = NextAuth({
     }),
 
     GitHubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user, account }: { user: User; account: Account }) {
       if (account?.provider === 'google' || account?.provider === 'github') {
-        const {name,email, image}=user;
-        try {
-          const db =await connectDb();
-          const userCollection = db?.collection('carUser');
-          const userExists = userCollection?.findOne({email});
+        const { name, email, image } = user;
+        console.log(user);
+        // try {
+        //   const db = await connectDb();
+        //   const userCollection = db?.collection('carUser');
+        //   const userExists = userCollection?.findOne({ email });
 
-          if(!userExists){
-            const response = await userCollection?.insertOne(user);
-            return response
-          }
-        } catch (error) {
-          console.log(error);
-        }
+        //   if (!userExists) {
+        //     const response = await userCollection?.insertOne(user);
+        //     return user;
+        //   }
+        // } catch (error) {
+        //   console.log(error);
+        // }
+        return true;
       } else {
         return user;
       }

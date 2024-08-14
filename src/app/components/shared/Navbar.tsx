@@ -90,7 +90,7 @@ const Navbar = () => {
                 alt="logo"
               />
               <a className="btn btn-outline btn-primary px-8">Appointment</a>
-              {!session.data ? (
+              {!session.data ? ( 
                 <button className="btn btn-primary py-4">
                   <Link href={'/login'}>Login</Link>
                 </button>
@@ -103,7 +103,7 @@ const Navbar = () => {
                 </button>
               )}
             </div>
-            <Image src={session.data?.user?.image || '/placeholder.png'} alt={session.data?.user?.name || 'kader'} height={50} width={50} className='rounded-full ms-3'/>
+            <Image src={session.data?.user?.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHBp3gsQdFjO_r7zsVr0d-gs8n86rXGbmp3w&s'} alt={session.data?.user?.name || 'kader'} height={50} width={50} className='rounded-full ms-3'/>
           </div>
         </div>
       </div>

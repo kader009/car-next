@@ -6,8 +6,8 @@ import { BsGoogle, BsGithub } from 'react-icons/bs';
 const SocialSignin = () => {
   const router = useRouter();
   const session = useSession()
-  const handleSocial = async (provider) => {
-    const response = await signIn(provider, {redirect: false});
+  const handleSocial = (provider: string) => {
+    const response = signIn(provider, {redirect: false});
   };
   
   if(session?.status === 'authenticated'){
