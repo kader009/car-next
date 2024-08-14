@@ -1,10 +1,10 @@
-import { connectDb } from '@/app/lib/connectDb';
+import { connectDb } from '@/app/lib/connectDb'; 
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 import { Db } from 'mongodb';
-import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from 'next-auth/providers/google';
+import GitHubProvider from 'next-auth/providers/github';
 
 const handler = NextAuth({
   session: {
@@ -13,7 +13,7 @@ const handler = NextAuth({
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
@@ -53,24 +53,34 @@ const handler = NextAuth({
 
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
 
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string
-    })
-
-
+      clientSecret: process.env.GITHUB_SECRET as string,
+    }),
   ],
   callbacks: {
-    async signIn({ user, account }){
-      if(account?.provider === 'google' || account?.provider === 'github'){
+    async signIn({ user, account }) {
+      if (account?.provider === 'google' || account?.provider === 'github') {
+        const {name,email, image}=user;
+        try {
+          const db =await connectDb();
+          const userCollection = db?.collection('carUser');
+          const userExists = userCollection?.findOne({email});
 
-      }else{
+          if(!userExists){
+            const response = await userCollection?.insertOne(user);
+            return response
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
         return user;
       }
-    }
+    },
   },
   pages: {
     signIn: '/login',
