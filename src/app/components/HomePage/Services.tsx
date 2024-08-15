@@ -1,11 +1,10 @@
 import Container from '../ui/Container';
 import ServiceCard from './card/ServiceCard';
-// import { services } from '@/app/lib/services';
 
 const getData = async () => {
   const response = await fetch(`http://localhost:3000/services/api/get-all`);
-  const data = response.json();
-  return data;
+  const services = response.json();
+  return services;
 };
 
 interface Facility {
@@ -23,9 +22,9 @@ interface Service {
   facility: Facility[];
 }
 
-const Services = async() => {
-  const data = await getData();
-  console.log(data.service);
+const Services = async () => {
+  const { service } = await getData();
+  // console.log(data.service);
   return (
     <Container>
       <div className="text-slate-800 min-h-screen text-center mt-12">
@@ -39,9 +38,10 @@ const Services = async() => {
           </p>
         </div>
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {data?.service?.lenght > 0 && data?.service?.map((services :Service) => (
-            <ServiceCard service={services} key={services._id} />
-          ))}
+          {service?.length > 0 &&
+            service?.map((servic: Service) => (
+              <ServiceCard servic={servic} key={servic._id} />
+            ))}
         </div>
       </div>
     </Container>
