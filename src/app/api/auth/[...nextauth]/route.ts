@@ -6,11 +6,20 @@ import { Db } from 'mongodb';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 
+type CustomUser = {
+  id: string;
+  name: string;
+  email: string;
+  image?: string;
+  password?: string;
+} & User;
+
 const handler = NextAuth({
   session: {
     strategy: 'jwt',
     maxAge: 3600 * 24 * 60 * 60,
   },
+
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -18,10 +27,7 @@ const handler = NextAuth({
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(
-        credentials: Record<'email' | 'password', string> | undefined,
-        req: Pick<RequestInternal, 'body' | 'query' | 'headers' | 'method'>
-      ): Awaitable<User | null> {
+      async authorize(credentials) {
         const { email, password } = credentials;
 
         if (!email || !password) {
