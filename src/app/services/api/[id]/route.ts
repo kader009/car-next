@@ -1,5 +1,4 @@
 import { connectDb } from '@/app/lib/connectDb';
-import { ObjectId } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (request: NextRequest, { params }: any) => {
