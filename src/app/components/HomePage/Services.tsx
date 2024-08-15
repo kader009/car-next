@@ -1,11 +1,6 @@
+import { getData } from '@/services/getAllApirequest';
 import Container from '../ui/Container';
 import ServiceCard from './card/ServiceCard';
-
-const getData = async () => {
-  const response = await fetch(`http://localhost:3000/services/api/get-all`);
-  const services = response.json();
-  return services;
-};
 
 interface Facility {
   name: string;
