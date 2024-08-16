@@ -3,6 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode, Key } from 'react';
 
+export const metadata ={
+  title: 'Service details',
+  description:'service details page'
+}
+
 interface Param{
   id:string;
 }
@@ -61,7 +66,7 @@ const Servicedatails = async ({params}:{params:Param}) => {
               <h2 className="text-xl font-bold ">Price: </h2>
               <p className="text-2xl text-rose-500"> ${price}</p>
             </div>
-            <Link href={`/checkout/${_id}`}>
+            <Link href={`/checknow/${_id}`}>
               <button className="bg-rose-500 px-3 py-2 rounded-lg mt-2 w-full">
                 Check out
               </button>
